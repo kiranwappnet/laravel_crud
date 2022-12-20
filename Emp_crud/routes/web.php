@@ -31,7 +31,7 @@ Route::get('/', [GuestController::class, 'index'])->middleware('guest')->name("w
 Route::get('/signin', [AuthController::class, 'signin_view'])->middleware('guest')->name("auth.signin");
 Route::post('/signin', [AuthController::class, 'signin'])->middleware('guest');
 
-Route::get('/employees', [AuthController::class, 'index'])->middleware('guest')->name('employees');
+Route::get('/employees', [AuthController::class, 'employees_view'])->middleware('auth')->name('employees');
 
 Route::get('/signup', [AuthController::class, 'signup_view'])->middleware('guest')->name("auth.signup");
 Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest');
@@ -48,7 +48,7 @@ Route::post('/reset-password/{token}', [AuthController::class,'reset_password'])
 Route::get('/', [AuthController::class, 'dashboard'])->middleware("auth");
 
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware("auth")->name('dashboard');
-
+Route::get('/employees', [EmployeeController::class, 'index'])->middleware('auth')->name('employees');
 Route::get('/documents', [AuthController::class, 'documents_view'])->middleware('auth')->name('documents');
 Route::post('/employees', [EmployeeController::class, 'create'])->middleware('auth');
 Route::get('/employees/delete/{employee}', [EmployeeController::class, 'delete'])->middleware('auth')->name('employees.delete');

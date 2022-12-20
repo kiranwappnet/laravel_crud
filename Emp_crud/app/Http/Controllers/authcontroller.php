@@ -26,7 +26,7 @@ class AuthController extends Controller
         return view("auth.signin");
     }
 
-    public function index()
+    public function employees_view()
     {
         return view("employees");
     }
