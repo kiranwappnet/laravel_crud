@@ -1,3 +1,13 @@
+
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="content">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
 <x-layout>
     <x-slot name="header">
         <div class="content-header">
@@ -107,7 +117,7 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="col-6 pb-2">
+                                        <div class="col-4 pb-3">
                                             <div class="form-group mb-0">
                                                 <label for="address">Address:</label>
                                                 <textarea name="address" id="address" class="form-control" placeholder="Address" rows="3" required>{{ old('address', $employee->address ?? '') }}</textarea>
@@ -116,16 +126,57 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="col-6 pb-2">
+                                        <div class="col-4 pb-3">
+                                            <div class="form-group mb-0">
+                                                <label for="address">Select State</label>
+                                                <select name="state" id="state" class="form-control">
+                                               <option value="">--Select State--</option>
+                                                     @foreach ($states as $data)
+                                                            <option value="{{$data->st_id}}">
+                                                                  {{$data->statename}}
+                                                             </option>
+                                                     @endforeach
+                                                 </select>
+                                            </div>
+                                            @error('state')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-4 pb-3">
+                                            <div class="form-group mb-0">
+                                                <label for="address">Select City</label>
+                                                <select name="city" id="city" class="form-control"></select>
+                                            </div>
+                                            @error('city')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-4 pb-3">
                                             <div class="form-group mb-0">
                                                 <label for="Profile Picture">Profile Picture :</label>
                                                 
                                                 <input type="file" id="profile" name="profile" placeholder="Please Choose File" value="{{ old('image') }}" class="form-control" />  
+                                                <br/>
                                                 @isset($employee)
                                                 <img src="{{ asset("public/images/" . $employee->image)}}" width="100" />
                                                     @endisset
                                             </div>
                                             @error('profile')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-4 pb-3">
+                                            <div class="form-group mb-0">
+                                                <label for="Resume">Upload Resume :</label>
+                                                
+                                                <input type="file" id="resume" name="resume" placeholder="Please Choose File"  class="form-control" />  
+                                                <br>
+
+                                                @isset($employee)
+                                                <a href="{{ asset("public/images/" . $employee->file)}}">View Uploaded Pdf</a>
+                                                    @endisset
+                                            </div>
+                                            @error('resume')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -164,6 +215,7 @@
                                                     <th>Mobile</th>
                                                     <th>Address</th>
                                                     <th>Profile Picture</th>
+                                                    <th>Resume</th>
                                                     <th>Edit</th>
                                                     <th>Delete</th>
                                                 </tr>
@@ -178,6 +230,7 @@
                                                         <td>{{ $employee->mobile }}</td>
                                                         <td>{{ $employee->address }}</td>
                                                         <td><img width="80px" height="80px" src="{{ asset("public/images/" . $employee->image)}}"></td>
+                                                        <td><a href="{{ asset("public/images/" . $employee->file)}}">View Uploaded Pdf</a></td>
                                                         <td>
                                                             <a href="{{ route('employees.edit', ['employee' => $employee->emp_id]) }}"
                                                                 class="btn btn-success btn-sm">Edit</a>
@@ -202,3 +255,33 @@
         </section>
     </x-slot>
 </x-layout>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+        $(document).ready(function () {
+            $('#state').on('change', function () {
+                var idState = $(this).val();
+                $("#city").html('');
+                $.ajax({
+                    url: "{{url('fetch-cities')}}",
+                    type: "POST",
+                    data: {
+                        state_id: idState,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (res) {
+                        $('#city').html('<option value="">-- Select City --</option>');
+                        $.each(res.cities, function (key, value) {
+                            $("#city").append('<option value="' + value
+                                .id + '">' + value.cityname + '</option>');
+                        });
+                    }
+                });
+            });
+  
+        });
+    </script>
+    </body>
+</html>
+
+

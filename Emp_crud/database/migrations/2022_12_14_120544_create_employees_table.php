@@ -23,7 +23,10 @@ class CreateEmployeesTable extends Migration
             $table->text('email');
             $table->string('mobile');
             $table->string('address');
+            $table->string('state');
+            $table->string('city');
             $table->string('image');
+            $table->string('file');
             $table->timestamps();
         });
     }

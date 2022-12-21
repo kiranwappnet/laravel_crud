@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\UploadImageController;
 use App\Mail\MyMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DropdownController;
 
 
 /*
@@ -58,5 +60,7 @@ Route::post('/employees/edit/{employee}', [EmployeeController::class, 'update'])
 
 Route::get('/signout', [AuthController::class, 'signout'])->middleware('auth')->name('signout');
 
-Route::post('/upload-image',[UploadImageController::class,'upload']);
+Route::get('/employees', [DropdownController::class, 'state'])->middleware('auth')->name('employees');
+Route::post('/fetch-cities', [DropdownController::class, 'fetchCity']);
+
 

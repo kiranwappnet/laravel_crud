@@ -72,12 +72,7 @@
                                 <p>Employees</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('documents') }}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Upload Documents</p>
-                            </a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-cog"></i>
