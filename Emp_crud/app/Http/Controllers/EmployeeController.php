@@ -23,6 +23,7 @@ class EmployeeController extends Controller
         $user_id = Auth::user()->id;
         $employees = User::find($user_id)->employees()->orderBy('emp_id', 'asc')->get();
         $data = compact("employees");
+        $data['states'] = States::get(["statename", "st_id"]);
         return view('employees', $data);
     }
 
@@ -109,6 +110,7 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $data = compact("employee");
+        $data['states'] = States::get(["statename", "st_id"]);
         return view('employees', $data);
     }
 
@@ -144,6 +146,8 @@ class EmployeeController extends Controller
         $employee->email = $request->email;
         $employee->mobile = $request->mobile;
         $employee->address = $request->address;
+        $employee->state = $request->state;
+        $employee->city = $request->city;
         $profile = $request->file('profile')->getclientoriginalName();
         $request->profile->move('public/images',$profile);
         $employee->image = $profile;

@@ -131,11 +131,13 @@
                                                 <label for="address">Select State</label>
                                                 <select name="state" id="state" class="form-control">
                                                <option value="">--Select State--</option>
+                                                @isset($employee)
                                                      @foreach ($states as $data)
                                                             <option value="{{$data->st_id}}">
                                                                   {{$data->statename}}
                                                              </option>
                                                      @endforeach
+                                                @endisset
                                                  </select>
                                             </div>
                                             @error('state')
@@ -214,6 +216,8 @@
                                                     <th>Email</th>
                                                     <th>Mobile</th>
                                                     <th>Address</th>
+                                                    <th>State</th>
+                                                    <th>City</th>
                                                     <th>Profile Picture</th>
                                                     <th>Resume</th>
                                                     <th>Edit</th>
@@ -229,6 +233,9 @@
                                                         <td>{{ $employee->email }}</td>
                                                         <td>{{ $employee->mobile }}</td>
                                                         <td>{{ $employee->address }}</td>
+                                                        <td>{{ $employee->state }}</td>
+                                                        <td>{{ $employee->city}}</td>
+                                            
                                                         <td><img width="80px" height="80px" src="{{ asset("public/images/" . $employee->image)}}"></td>
                                                         <td><a href="{{ asset("public/images/" . $employee->file)}}">View Uploaded Pdf</a></td>
                                                         <td>
@@ -251,6 +258,7 @@
                         </div>
                     </div>
                 @endisset
+                
             </div>
         </section>
     </x-slot>
@@ -283,5 +291,6 @@
     </script>
     </body>
 </html>
+
 
 

@@ -18,8 +18,11 @@ class StateCity extends Seeder
         //
         $state = States::create(['statename' => 'Uttar Pradesh']);
 
+
         City::create(['state_id' => $state->id, 'cityname' => 'Ayodhya']);
         City::create(['state_id' => $state->id, 'cityname' => 'Mathura']);
+
+        
 
 
     }

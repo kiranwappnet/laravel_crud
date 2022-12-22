@@ -1,14 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuestController;
-use App\Http\Controllers\UploadImageController;
 use App\Mail\MyMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\Controller;
 
 
 /*
@@ -33,7 +32,6 @@ Route::get('/', [GuestController::class, 'index'])->middleware('guest')->name("w
 Route::get('/signin', [AuthController::class, 'signin_view'])->middleware('guest')->name("auth.signin");
 Route::post('/signin', [AuthController::class, 'signin'])->middleware('guest');
 
-Route::get('/employees', [AuthController::class, 'employees_view'])->middleware('auth')->name('employees');
 
 Route::get('/signup', [AuthController::class, 'signup_view'])->middleware('guest')->name("auth.signup");
 Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest');
@@ -41,16 +39,16 @@ Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest');
 Route::get('/forgot-password', [AuthController::class, 'forgot_password_view'])->middleware('guest')->name('auth.forgot-password');
 Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->middleware('guest');
 
-Route::get('/profilechanged', [AuthController::class, 'profilechanged_view'])->middleware('guest')->name('auth.profilechanged');
 
 Route::get('/reset-password/{token}', [AuthController::class,'reset_password_view'])->middleware('guest')->name('password.reset');
 Route::post('/reset-password/{token}', [AuthController::class,'reset_password'])->middleware('guest')->name("auth.reset-password");
 
 // After Login
+Route::get('/employees', [EmployeeController::class, 'index'])->middleware('auth')->name('employees');
 Route::get('/', [AuthController::class, 'dashboard'])->middleware("auth");
 
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware("auth")->name('dashboard');
-Route::get('/employees', [EmployeeController::class, 'index'])->middleware('auth')->name('employees');
+
 Route::get('/documents', [AuthController::class, 'documents_view'])->middleware('auth')->name('documents');
 Route::post('/employees', [EmployeeController::class, 'create'])->middleware('auth');
 Route::get('/employees/delete/{employee}', [EmployeeController::class, 'delete'])->middleware('auth')->name('employees.delete');
@@ -60,7 +58,7 @@ Route::post('/employees/edit/{employee}', [EmployeeController::class, 'update'])
 
 Route::get('/signout', [AuthController::class, 'signout'])->middleware('auth')->name('signout');
 
-Route::get('/employees', [DropdownController::class, 'state'])->middleware('auth')->name('employees');
+// Route::get('/employees', [DropdownController::class, 'state'])->middleware('auth')->name('employees');
 Route::post('/fetch-cities', [DropdownController::class, 'fetchCity']);
 
 
