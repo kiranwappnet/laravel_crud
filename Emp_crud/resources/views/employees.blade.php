@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     </head>
     <body>
 <x-layout>
@@ -131,13 +132,13 @@
                                                 <label for="address">Select State</label>
                                                 <select name="state" id="state" class="form-control">
                                                <option value="">--Select State--</option>
-                                                @isset($employee)
+                                               
                                                      @foreach ($states as $data)
                                                             <option value="{{$data->st_id}}">
                                                                   {{$data->statename}}
                                                              </option>
                                                      @endforeach
-                                                @endisset
+                                            
                                                  </select>
                                             </div>
                                             @error('state')
@@ -208,7 +209,7 @@
                                 </div>
                                 <div class="card-body" style="display: block;">
                                     @if ($employees->count() > 0)
-                                        <table class="table">
+                                        <table class="table" id="myDataTable">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -248,22 +249,32 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                
                                             </tbody>
+                                          
                                         </table>
+                                  
+
+                                        
                                     @else
                                         <h2 class="mt-3 mb-4 text-center font-weight-bold">No Employees to Display</h2>
                                     @endif
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
+                   
                 @endisset
                 
             </div>
         </section>
+        
+
     </x-slot>
 </x-layout>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 <script>
         $(document).ready(function () {
             $('#state').on('change', function () {
@@ -288,7 +299,12 @@
             });
   
         });
+
+        
+  
+ 
     </script>
+    
     </body>
 </html>
 

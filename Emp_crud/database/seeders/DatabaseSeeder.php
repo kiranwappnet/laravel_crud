@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\EmployeeFactory as FactoriesEmployeeFactory;
 use Illuminate\Database\Seeder;
+use Factories\EmployeeFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +21,10 @@ class DatabaseSeeder extends Seeder
             AddState::class,
 
         ]);
+
+        \App\Models\Employee::factory(10)->create();
+        FactoriesEmployeeFactory::factory()->times(2)->create();
+
+
     }
 }

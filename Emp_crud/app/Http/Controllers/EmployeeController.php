@@ -12,20 +12,26 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\datatables;
 
 class EmployeeController extends Controller
 {
 
 
+    
+
    
     public function index()
     {
         $user_id = Auth::user()->id;
-        $employees = User::find($user_id)->employees()->orderBy('emp_id', 'asc')->get();
+        $employees = User::find($user_id)->employees()->get();
+        $employees = Employee::paginate();
         $data = compact("employees");
         $data['states'] = States::get(["statename", "st_id"]);
         return view('employees', $data);
     }
+
+    
 
     public function create(Request $request)
     {
