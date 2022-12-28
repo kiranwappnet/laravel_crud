@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthController as APIAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GuestController;
@@ -39,6 +40,9 @@ Route::post('/signup', [AuthController::class, 'signup'])->middleware('guest');
 Route::get('/forgot-password', [AuthController::class, 'forgot_password_view'])->middleware('guest')->name('auth.forgot-password');
 Route::post('/forgot-password', [AuthController::class, 'forgot_password'])->middleware('guest');
 
+
+Route::get('/reset-password',[APIAuthController::class,'resetpasswordview']);
+Route::post('/reset-password',[APIAuthController::class,'resetpassword']);
 
 Route::get('/reset-password/{token}', [AuthController::class,'reset_password_view'])->middleware('guest')->name('password.reset');
 Route::post('/reset-password/{token}', [AuthController::class,'reset_password'])->middleware('guest')->name("auth.reset-password");

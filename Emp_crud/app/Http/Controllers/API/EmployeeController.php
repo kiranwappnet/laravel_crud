@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\Employee;
 use App\Http\Resources\Employees as EmployeeResource;
-
-
-
+use Facade\FlareClient\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class EmployeeController extends BaseController
 {
@@ -22,7 +21,7 @@ class EmployeeController extends BaseController
     {
 
         $employee = Employee::orderBy('created_at', 'asc')->get();
-        return $this->sendResponse(EmployeeResource::collection($employee),'Employee Found.');
+        return response()->json($this->sendResponse(EmployeeResource::collection($employee),'Employee Found.'));
 
     }
     
@@ -44,13 +43,13 @@ class EmployeeController extends BaseController
             'city' => 'required',
         ]);
         if($validator->fails()){
-            return $this->sendError($validator->errors());       
+            return Response()->json($this->sendError($validator->errors()));       
         }
 
        
         $employee = Employee::create($input);
         
-        return $this->sendResponse(new EmployeeResource($employee), 'Employee created.');
+        return Response()->json($this->sendResponse(new EmployeeResource($employee), 'Employee created.'));
     }
    
 
@@ -70,7 +69,7 @@ class EmployeeController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
    
 
@@ -78,10 +77,10 @@ class EmployeeController extends BaseController
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id) {
-        return Employee::findorFail($id); //searches for the object in the database using its id and returns it.
+        return Response()->json(Employee::findorFail($id)); //searches for the object in the database using its id and returns it.
     }
 
     /**
@@ -118,7 +117,7 @@ class EmployeeController extends BaseController
             'city' => 'required',
         ]);
         if($validator->fails()){
-            return $this->sendError($validator->errors());       
+            return response()->json($this->sendError($validator->errors()));       
         }
         $employee->user = $input['user'];
         $employee->firstname = $input['firstname'];
@@ -132,20 +131,21 @@ class EmployeeController extends BaseController
         $employee->city = $input['city'];
         $employee->save();
         
-        return $this->sendResponse(new EmployeeResource($employee), 'Employee updated.');
+        return Response()->json($this->sendResponse(new EmployeeResource($employee), 'Employee updated.'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
+    
     public function destroy(Employee $employees)
 
     {
         $employees->delete();
-        return $this->sendResponse([], 'Employee Deleted');
+        return Response()->json($this->sendResponse([], 'Employee Deleted'));
 
     }
 }
